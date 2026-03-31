@@ -8,8 +8,8 @@ import {
   Cpu, Filter, RefreshCw, LayoutGrid, Scroll, Crown, Trophy 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import projectsData from '../data/projects.json';
+import { useState, useEffect } from 'react';
+import projectsData from '@/src/data/projects.json';
 
 const getCategoryColor = (category: string) => {
   switch (category) {
@@ -49,23 +49,16 @@ const ModuleIcon = ({ id, className }: { id: string; className?: string }) => {
 
 export default function Index() {
   const navigate = useNavigate();
-  const { progress, isModuleUnlocked, getModuleProgress } = useProgress();
-  const { user, signIn, signOut } = useAuth();
+  const { progress, isModuleUnlocked, getModuleProgress, loading: progressLoading } = useProgress();
+  const { user, signIn, signOut, loading: authLoading } = useAuth();
   const [hoveredFloor, setHoveredFloor] = useState<string | null>(null);
-  
-  const level = getLevel(progress.xp);
-  const levelProg = getLevelProgress(progress.xp);
-  const xpToNext = getXpForNextLevel(level) - progress.xp;
-  const totalExercises = curriculum.flatMap(m => m.exercises).length;
-  const completedCount = progress.completedExercises.length;
+  const [projects, setProjects] = useState<any[]>([]);
 
-  const handleStartModule = (moduleId: string) => {
-    const mod = curriculum.find(m => m.id === moduleId);
-    if (!mod) return;
-    const firstIncomplete = mod.exercises.find(e => !progress.completedExercises.includes(e.id));
-    const target = firstIncomplete || mod.exercises[0];
-    navigate(`/exercise/${moduleId}/${target.id}`);
-  };
+  // Actually using standard useEffect
+  useEffect(() => {
+    const data = Array.isArray(projectsData) ? projectsData : (projectsData as any)?.default || [];
+    setProjects(data);
+  }, []);
 
   const container = {
     hidden: { opacity: 0 },
@@ -86,6 +79,20 @@ export default function Index() {
         duration: 0.3
       }
     }
+  };
+
+  const level = getLevel(progress?.xp || 0);
+  const levelProg = getLevelProgress(progress?.xp || 0);
+  const xpToNext = getXpForNextLevel(level) - (progress?.xp || 0);
+  const totalExercises = curriculum.flatMap(m => m.exercises).length;
+  const completedCount = progress?.completedExercises?.length || 0;
+
+  const handleStartModule = (moduleId: string) => {
+    const mod = curriculum.find(m => m.id === moduleId);
+    if (!mod) return;
+    const firstIncomplete = mod.exercises.find(e => !(progress?.completedExercises || []).includes(e.id));
+    const target = firstIncomplete || mod.exercises[0];
+    navigate(`/exercise/${moduleId}/${target.id}`);
   };
 
   return (
@@ -350,7 +357,7 @@ export default function Index() {
                         </div>
                         <div className="flex gap-1 h-1.5 w-full">
                           {mod.exercises.map((ex, i) => {
-                            const isCompleted = progress.completedExercises.includes(ex.id);
+                            const isCompleted = (progress?.completedExercises || []).includes(ex.id);
                             return (
                               <div key={ex.id} className="flex-1 bg-slate-950 rounded-full overflow-hidden border border-white/5">
                                 <motion.div 
@@ -383,7 +390,7 @@ export default function Index() {
               animate="show"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {(Array.isArray(projectsData) ? projectsData : (projectsData as any)?.default || []).map((project: any) => (
+              {projects.map((project: any) => (
                 <motion.div 
                   key={project.id} 
                   variants={item}

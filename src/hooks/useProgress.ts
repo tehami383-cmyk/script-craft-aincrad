@@ -21,8 +21,12 @@ export function getXpForNextLevel(level: number) {
 
 export function useProgress() {
   const [progress, setProgress] = useState<Progress>(() => {
-    const saved = localStorage.getItem('aincrad_progress');
-    if (saved) return JSON.parse(saved);
+    try {
+      const saved = localStorage.getItem('aincrad_progress');
+      if (saved && saved !== 'undefined') return JSON.parse(saved);
+    } catch (e) {
+      console.error("Failed to parse progress from local storage", e);
+    }
     return { xp: 0, completedExercises: [] };
   });
 
