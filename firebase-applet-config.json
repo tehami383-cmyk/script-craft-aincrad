@@ -3,8 +3,8 @@
   "appId": "1:764927445305:web:d1baa733bc8e7a8fd000e8",
   "apiKey": "AIzaSyBikiHTyNKZg3_q3kD65KO0wuXRWiHuLcU",
   "authDomain": "tehami383-cmyks-projects.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-185feb37-57f7-40b0-96a2-8968a6e65c4a",
-  "storageBucket": "tehami383-cmyks-projects",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "tehami383-cmyks-projects.appspot.com",
   "messagingSenderId": "764927445305",
   "measurementId": ""
 }
