@@ -32,6 +32,19 @@
         "updatedAt": { "type": "string", "format": "date-time", "description": "The time the code was last updated." }
       },
       "required": ["uid", "moduleId", "exerciseId", "code"]
+    },
+    "LeaderboardEntry": {
+      "title": "Leaderboard Entry",
+      "description": "Publicly readable profile data for the leaderboard.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The user's unique identifier." },
+        "displayName": { "type": "string", "description": "The user's display name." },
+        "photoURL": { "type": "string", "description": "The user's profile photo URL." },
+        "xp": { "type": "integer", "description": "The user's total experience points." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "The time the entry was last updated." }
+      },
+      "required": ["uid", "xp"]
     }
   },
   "firestore": {
@@ -42,6 +55,10 @@
     "/users/{uid}/code/{exerciseId}": {
       "schema": "SavedCode",
       "description": "The user's saved code for a specific exercise."
+    },
+    "/leaderboard/{uid}": {
+      "schema": "LeaderboardEntry",
+      "description": "Publicly readable leaderboard data."
     }
   }
 }

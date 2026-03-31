@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useProgress, getLevel, getLevelProgress, getXpForNextLevel } from '../hooks/useProgress';
-import { curriculum } from '../data/curriculum';
-import { motion } from 'framer-motion';
-import { ArrowLeft, LogOut, ShieldCheck, Target, Swords, Activity, Zap, Star, Award, Calendar, Mail, User as UserIcon, ChevronRight } from 'lucide-react';
+import { curriculum, BADGES } from '../data/curriculum';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, LogOut, ShieldCheck, Target, Swords, Activity, Zap, Star, Award, Calendar, Mail, User as UserIcon, ChevronRight, ChevronDown, Check, Hexagon, Lock } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Profile() {
   const navigate = useNavigate();
   const { user, signOut, loading: authLoading } = useAuth();
   const { progress, loading: progressLoading } = useProgress();
+  const [expandedModules, setExpandedModules] = useState<string[]>([]);
 
   if (authLoading || progressLoading) {
     return (
@@ -49,13 +51,45 @@ export default function Profile() {
   const levelProg = getLevelProgress(progress.xp);
   const xpToNext = getXpForNextLevel(level) - progress.xp;
   
-  const completedExercises = curriculum.flatMap(m => 
-    m.exercises.filter(e => progress.completedExercises.includes(e.id)).map(e => ({
-      ...e,
-      moduleTitle: m.title,
-      moduleId: m.id
-    }))
-  );
+  const groupedExercises = curriculum.reduce((acc, mod) => {
+    const completedInModule = mod.exercises.filter(e => progress.completedExercises.includes(e.id));
+    if (completedInModule.length > 0) {
+      acc.push({
+        moduleId: mod.id,
+        moduleTitle: mod.title,
+        exercises: completedInModule
+      });
+    }
+    return acc;
+  }, [] as { moduleId: string, moduleTitle: string, exercises: any[] }[]);
+
+  const toggleModule = (moduleId: string) => {
+    setExpandedModules(prev => 
+      prev.includes(moduleId) 
+        ? prev.filter(id => id !== moduleId)
+        : [...prev, moduleId]
+    );
+  };
+
+  const earnedBadges = curriculum.map(mod => {
+    const isEarned = mod.exercises.every(ex => progress.completedExercises.includes(ex.id));
+    return {
+      id: mod.id,
+      name: BADGES[mod.id as keyof typeof BADGES],
+      theme: mod.theme,
+      isEarned
+    };
+  });
+
+  const skillNodes = curriculum.map((mod, index) => {
+    const isCompleted = mod.exercises.every(ex => progress.completedExercises.includes(ex.id));
+    const isUnlocked = index === 0 ? true : curriculum[index - 1].exercises.every(ex => progress.completedExercises.includes(ex.id));
+    return { ...mod, isCompleted, isUnlocked };
+  });
+
+  const highestCompletedIndex = [...skillNodes].reverse().findIndex(n => n.isCompleted);
+  const actualHighestCompletedIndex = highestCompletedIndex === -1 ? -1 : skillNodes.length - 1 - highestCompletedIndex;
+  const progressPercentage = Math.min(100, Math.max(0, ((actualHighestCompletedIndex + 1) / (skillNodes.length - 1)) * 100));
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-cyan-500/30 pb-20">
@@ -193,6 +227,115 @@ export default function Profile() {
             </motion.div>
           </section>
 
+          {/* Neural Badges / Achievements */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-6">
+              <h2 className="text-xs font-mono tracking-[0.6em] uppercase text-slate-500">Neural Badges</h2>
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {earnedBadges.map((badge, i) => (
+                <motion.div
+                  key={badge.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className={`relative p-6 rounded-2xl border flex flex-col items-center text-center gap-4 transition-all ${
+                    badge.isEarned 
+                      ? 'border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-500/50 hover:bg-cyan-500/10' 
+                      : 'border-white/5 bg-slate-900/40 opacity-50 grayscale'
+                  }`}
+                >
+                  {badge.isEarned && (
+                    <div className="absolute -inset-2 bg-cyan-500/20 rounded-full blur-xl opacity-0 hover:opacity-100 transition-opacity" />
+                  )}
+                  
+                  <div className={`relative w-16 h-16 rounded-full flex items-center justify-center ${
+                    badge.isEarned ? 'bg-cyan-950 border border-cyan-500/50 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-slate-900 border border-slate-700 text-slate-600'
+                  }`}>
+                    {badge.isEarned ? <Hexagon size={32} /> : <Lock size={24} />}
+                  </div>
+                  
+                  <div className="space-y-1 relative z-10">
+                    <div className={`text-[8px] font-mono uppercase tracking-widest ${badge.isEarned ? 'text-cyan-500' : 'text-slate-500'}`}>
+                      {badge.theme}
+                    </div>
+                    <h4 className={`text-xs font-bold uppercase tracking-wider ${badge.isEarned ? 'text-white' : 'text-slate-400'}`}>
+                      {badge.name}
+                    </h4>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Neural Skill Tree */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-6">
+              <h2 className="text-xs font-mono tracking-[0.6em] uppercase text-slate-500">Neural Skill Tree</h2>
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
+            </div>
+
+            <div className="relative py-10 pl-12 md:pl-0">
+              {/* Background Line */}
+              <div className="absolute left-[1.5rem] md:left-1/2 top-0 bottom-0 w-1 bg-slate-800 md:-translate-x-1/2 rounded-full" />
+              
+              {/* Progress Line */}
+              <div 
+                className="absolute left-[1.5rem] md:left-1/2 top-0 w-1 bg-cyan-500 md:-translate-x-1/2 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+                style={{ height: `${progressPercentage}%` }} 
+              />
+
+              <div className="space-y-12 relative z-10">
+                {skillNodes.map((node, i) => (
+                  <motion.div 
+                    key={node.id} 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className={`flex items-center md:justify-between gap-8 ${i % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}
+                  >
+                    {/* Desktop Empty Space */}
+                    <div className="hidden md:block md:w-[calc(50%-3rem)]" />
+                    
+                    {/* Node */}
+                    <div className={`absolute left-0 md:relative md:left-auto flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center bg-slate-950 z-10 transition-all duration-500 ${
+                      node.isCompleted 
+                        ? 'border-cyan-400 text-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.4)]' 
+                        : node.isUnlocked 
+                          ? 'border-cyan-700 text-cyan-600' 
+                          : 'border-slate-800 text-slate-700'
+                    }`}>
+                      {node.isCompleted ? <Check size={20} /> : node.isUnlocked ? <Activity size={20} /> : <Lock size={20} />}
+                    </div>
+                    
+                    {/* Content */}
+                    <div className={`flex-1 md:w-[calc(50%-3rem)] ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                      <div className={`p-5 rounded-2xl border transition-all duration-500 ${
+                        node.isCompleted 
+                          ? 'border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-500/50' 
+                          : node.isUnlocked 
+                            ? 'border-white/10 bg-slate-900/40 hover:border-white/20' 
+                            : 'border-white/5 bg-slate-950/40 opacity-50'
+                      }`}>
+                        <div className={`text-[8px] font-mono uppercase tracking-widest mb-1 ${node.isCompleted ? 'text-cyan-500' : 'text-slate-500'}`}>
+                          {node.theme}
+                        </div>
+                        <h3 className={`text-sm font-bold uppercase tracking-wider mb-2 ${node.isCompleted ? 'text-white' : node.isUnlocked ? 'text-slate-200' : 'text-slate-600'}`}>
+                          {node.title}
+                        </h3>
+                        <p className={`text-xs italic line-clamp-2 ${node.isCompleted ? 'text-cyan-100/70' : node.isUnlocked ? 'text-slate-400' : 'text-slate-700'}`}>
+                          {node.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Completed Missions */}
           <section className="space-y-6">
             <div className="flex items-center gap-6">
@@ -200,7 +343,7 @@ export default function Profile() {
               <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
             </div>
 
-            {completedExercises.length === 0 ? (
+            {groupedExercises.length === 0 ? (
               <div className="p-12 rounded-3xl border border-dashed border-white/10 text-center space-y-4">
                 <div className="w-16 h-16 rounded-full bg-slate-900 border border-white/5 mx-auto flex items-center justify-center text-slate-700">
                   <Swords size={32} />
@@ -211,34 +354,83 @@ export default function Profile() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {completedExercises.map((ex, i) => (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    key={ex.id}
-                    onClick={() => navigate(`/exercise/${ex.moduleId}/${ex.id}`)}
-                    className="p-5 rounded-2xl border border-white/5 bg-slate-900/40 hover:border-cyan-500/30 hover:bg-slate-900/60 transition-all cursor-pointer group flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                        <ShieldCheck size={20} />
-                      </div>
-                      <div>
-                        <div className="text-[8px] font-mono text-cyan-500 uppercase tracking-widest mb-0.5">{ex.moduleTitle}</div>
-                        <h4 className="text-xs font-bold text-white uppercase tracking-wider">{ex.title}</h4>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <div className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">Reward</div>
-                        <div className="text-[10px] font-bold text-emerald-400">+50 XP</div>
-                      </div>
-                      <ChevronRight size={14} className="text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="space-y-4">
+                {groupedExercises.map((group, i) => {
+                  const isExpanded = expandedModules.includes(group.moduleId);
+                  return (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      key={group.moduleId}
+                      className="rounded-2xl border border-white/5 bg-slate-900/20 overflow-hidden"
+                    >
+                      <button
+                        onClick={() => toggleModule(group.moduleId)}
+                        className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition-colors"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                            <ShieldCheck size={20} />
+                          </div>
+                          <div className="text-left">
+                            <div className="text-[8px] font-mono text-cyan-500 uppercase tracking-widest mb-0.5">Floor Cleared</div>
+                            <h4 className="text-sm font-bold text-white uppercase tracking-wider">{group.moduleTitle}</h4>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right hidden sm:block">
+                            <div className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">Missions</div>
+                            <div className="text-[10px] font-bold text-slate-300">{group.exercises.length} Completed</div>
+                          </div>
+                          <motion.div
+                            animate={{ rotate: isExpanded ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <ChevronDown size={18} className="text-slate-500" />
+                          </motion.div>
+                        </div>
+                      </button>
+                      
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="p-4 pt-0 grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {group.exercises.map((ex) => (
+                                <div
+                                  key={ex.id}
+                                  onClick={() => navigate(`/exercise/${group.moduleId}/${ex.id}`)}
+                                  className="p-4 rounded-xl border border-white/5 bg-slate-900/40 hover:border-cyan-500/30 hover:bg-slate-900/60 transition-all cursor-pointer group flex items-center justify-between"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                                      <Check size={16} />
+                                    </div>
+                                    <div>
+                                      <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider">{ex.title}</h4>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-3">
+                                    <div className="text-right">
+                                      <div className="text-[10px] font-bold text-emerald-400">+50 XP</div>
+                                    </div>
+                                    <ChevronRight size={14} className="text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
               </div>
             )}
           </section>

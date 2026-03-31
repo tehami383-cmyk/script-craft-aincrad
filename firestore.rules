@@ -26,6 +26,15 @@ service cloud.firestore {
     //   - code: string (required) - The saved code snippet.
     //   - updatedAt: timestamp (optional) - The time the code was last updated.
     //
+    // Collection: leaderboard
+    // Document ID: {uid}
+    // Fields:
+    //   - uid: string (required, immutable) - The user's unique ID.
+    //   - displayName: string (optional) - The user's display name.
+    //   - photoURL: string (optional) - The user's profile photo URL.
+    //   - xp: number (required) - The user's total experience points.
+    //   - updatedAt: timestamp (optional) - The time the entry was last updated.
+    //
     // ===============================================================
 
     // ===============================================================
@@ -78,6 +87,15 @@ service cloud.firestore {
              data.code is string && data.code.size() < 100000;
     }
 
+    function isValidLeaderboardEntry(data) {
+      return data.keys().hasAll(['uid', 'xp']) &&
+             data.keys().hasOnly(['uid', 'xp', 'displayName', 'photoURL', 'updatedAt']) &&
+             data.uid is string && data.uid == request.auth.uid &&
+             data.xp is number && data.xp >= 0 && data.xp < 1000000 &&
+             (!('photoURL' in data) || (isValidUrl(data.photoURL) && data.photoURL.size() < 2048)) &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() < 100));
+    }
+
     // ===============================================================
     // Rules
     // ===============================================================
@@ -97,6 +115,12 @@ service cloud.firestore {
         allow create, update: if isOwner(userId) && isValidCode(request.resource.data);
         allow delete: if isOwner(userId) || isAdmin();
       }
+    }
+
+    match /leaderboard/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId) && isValidLeaderboardEntry(request.resource.data) && request.resource.data.uid == userId;
+      allow update: if (isOwner(userId) && isValidLeaderboardEntry(request.resource.data) && request.resource.data.uid == userId && request.resource.data.uid == resource.data.uid) || isAdmin();
     }
   }
 }

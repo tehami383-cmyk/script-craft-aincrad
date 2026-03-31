@@ -2,9 +2,27 @@ import { useNavigate } from 'react-router-dom';
 import { curriculum, BADGES } from '../data/curriculum';
 import { useProgress, getLevel, getLevelProgress, getXpForNextLevel } from '../hooks/useProgress';
 import { useAuth } from '../hooks/useAuth';
-import { Lock, Check, ArrowRight, LogOut, Swords, Target, Activity, Zap, ShieldCheck, Star, Info, Bot, Sparkles } from 'lucide-react';
+import { 
+  Lock, Check, ArrowRight, LogOut, Swords, Target, Activity, Zap, 
+  ShieldCheck, Star, Info, Bot, Sparkles, Database, GitBranch, 
+  Cpu, Filter, RefreshCw, LayoutGrid, Scroll, Crown, Trophy 
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+
+const ModuleIcon = ({ id, className }: { id: string; className?: string }) => {
+  switch (id) {
+    case 'f1': return <Database className={className} />;
+    case 'f2': return <GitBranch className={className} />;
+    case 'f3': return <Cpu className={className} />;
+    case 'f4': return <Filter className={className} />;
+    case 'f5': return <RefreshCw className={className} />;
+    case 'f6': return <LayoutGrid className={className} />;
+    case 'f7': return <Scroll className={className} />;
+    case 'f8': return <Crown className={className} />;
+    default: return <Swords className={className} />;
+  }
+};
 
 export default function Index() {
   const navigate = useNavigate();
@@ -160,6 +178,17 @@ export default function Index() {
             <div className="grid grid-cols-1 gap-4">
               <motion.div 
                 whileHover={{ x: 10 }}
+                onClick={() => navigate('/leaderboard')}
+                className="p-6 rounded-2xl border border-white/5 bg-slate-900/40 flex items-center justify-between group hover:border-amber-500/30 hover:bg-amber-500/5 cursor-pointer transition-all"
+              >
+                <div>
+                  <div className="text-[10px] font-mono text-slate-500 uppercase mb-1">Global Rankings</div>
+                  <div className="text-xl font-black text-white group-hover:text-amber-400 transition-colors">View Leaderboard</div>
+                </div>
+                <Trophy className="text-amber-500 opacity-20 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+              <motion.div 
+                whileHover={{ x: 10 }}
                 className="p-6 rounded-2xl border border-white/5 bg-slate-900/40 flex items-center justify-between group hover:border-cyan-500/30 transition-all"
               >
                 <div>
@@ -275,7 +304,7 @@ export default function Index() {
                     <div className="relative z-10">
                       <div className="flex justify-between items-center mb-8">
                         <div className={`p-4 rounded-xl bg-slate-950 border ${unlocked ? 'border-cyan-500/20 text-cyan-400' : 'border-white/5 text-slate-700'}`}>
-                          <span className="text-2xl">{mod.icon}</span>
+                          <ModuleIcon id={mod.id} className="w-6 h-6" />
                         </div>
                         {unlocked ? (
                           completed ? <Check className="h-6 w-6 text-emerald-400" /> : <ArrowRight className="h-5 w-5 text-cyan-400 group-hover:translate-x-1 transition-transform" />

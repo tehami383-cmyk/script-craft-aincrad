@@ -57,6 +57,19 @@ export function useProgress() {
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         });
+        
+        // Initialize leaderboard entry
+        const leaderboardRef = doc(db, 'leaderboard', user.uid);
+        const leaderboardData: any = {
+          uid: user.uid,
+          displayName: user.displayName || 'Architect',
+          xp: progress.xp,
+          updatedAt: serverTimestamp()
+        };
+        if (user.photoURL) {
+          leaderboardData.photoURL = user.photoURL;
+        }
+        setDoc(leaderboardRef, leaderboardData, { merge: true });
       }
       setLoading(false);
     }, (error) => {
@@ -80,6 +93,18 @@ export function useProgress() {
         xp: progress.xp + amount,
         updatedAt: serverTimestamp()
       });
+      
+      const leaderboardRef = doc(db, 'leaderboard', user.uid);
+      const leaderboardData: any = {
+        uid: user.uid,
+        displayName: user.displayName || 'Architect',
+        xp: progress.xp + amount,
+        updatedAt: serverTimestamp()
+      };
+      if (user.photoURL) {
+        leaderboardData.photoURL = user.photoURL;
+      }
+      await setDoc(leaderboardRef, leaderboardData, { merge: true });
     } else {
       setProgress(p => ({ ...p, xp: p.xp + amount }));
     }
@@ -96,6 +121,18 @@ export function useProgress() {
         xp: progress.xp + 50,
         updatedAt: serverTimestamp()
       });
+      
+      const leaderboardRef = doc(db, 'leaderboard', user.uid);
+      const leaderboardData: any = {
+        uid: user.uid,
+        displayName: user.displayName || 'Architect',
+        xp: progress.xp + 50,
+        updatedAt: serverTimestamp()
+      };
+      if (user.photoURL) {
+        leaderboardData.photoURL = user.photoURL;
+      }
+      await setDoc(leaderboardRef, leaderboardData, { merge: true });
     } else {
       setProgress(p => ({
         ...p,

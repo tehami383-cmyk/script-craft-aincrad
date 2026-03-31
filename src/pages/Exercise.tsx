@@ -69,7 +69,7 @@ export default function Exercise() {
   const [loading, setLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showTacticalOverlay, setShowTacticalOverlay] = useState(false);
-  const [activeTab, setActiveTab] = useState<'tutorial' | 'hint'>('tutorial');
+  const [activeTab, setActiveTab] = useState<'tutorial' | 'hint' | 'definition'>('tutorial');
   const [startTime] = useState(Date.now());
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [consoleOutput, setConsoleOutput] = useState<string | null>(null);
@@ -649,20 +649,27 @@ export default function Exercise() {
                   onClick={() => setActiveTab('tutorial')}
                   className={`flex-1 py-4 text-[10px] font-mono uppercase tracking-widest transition-all relative ${activeTab === 'tutorial' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
                 >
-                  System Briefing
+                  Briefing
                   {activeTab === 'tutorial' && <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500" />}
+                </button>
+                <button 
+                  onClick={() => setActiveTab('definition')}
+                  className={`flex-1 py-4 text-[10px] font-mono uppercase tracking-widest transition-all relative ${activeTab === 'definition' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
+                >
+                  Logic
+                  {activeTab === 'definition' && <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500" />}
                 </button>
                 <button 
                   onClick={() => setActiveTab('hint')}
                   className={`flex-1 py-4 text-[10px] font-mono uppercase tracking-widest transition-all relative ${activeTab === 'hint' ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'}`}
                 >
-                  Master's Breath
+                  Breath
                   {activeTab === 'hint' && <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500" />}
                 </button>
               </div>
 
               <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-8">
-                {activeTab === 'tutorial' ? (
+                {activeTab === 'tutorial' && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -672,20 +679,6 @@ export default function Exercise() {
                       <h3 className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Floor Objective</h3>
                       <div className="p-6 rounded-2xl bg-slate-900/40 border border-white/5 text-sm text-slate-300 leading-relaxed italic">
                         {module.tutorial || "No briefing data available for this floor."}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-[10px] font-mono uppercase tracking-widest text-cyan-500/50">Core Definition</h3>
-                      <div className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/10 text-sm text-slate-300 leading-relaxed">
-                        {(module as any).definition || "Definition pending neural sync."}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-[10px] font-mono uppercase tracking-widest text-purple-500/50">Data Science Convergence</h3>
-                      <div className="p-6 rounded-2xl bg-purple-500/5 border border-purple-500/10 text-sm text-slate-300 leading-relaxed">
-                        {(module as any).dsContext || "Convergence logic not yet mapped."}
                       </div>
                     </div>
 
@@ -701,19 +694,43 @@ export default function Exercise() {
                       </div>
                     </div>
                   </motion.div>
-                ) : (
+                )}
+
+                {activeTab === 'definition' && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="space-y-8"
                   >
                     <div className="space-y-2">
+                      <h3 className="text-[10px] font-mono uppercase tracking-widest text-cyan-500/50">Core Definition</h3>
+                      <div className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/10 text-sm text-slate-300 leading-relaxed">
+                        {(module as any).definition || "Definition pending neural sync."}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="text-[10px] font-mono uppercase tracking-widest text-purple-500/50">Data Science Convergence</h3>
+                      <div className="p-6 rounded-2xl bg-purple-500/5 border border-purple-500/10 text-sm text-slate-300 leading-relaxed">
+                        {(module as any).dsContext || "Convergence logic not yet mapped."}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
                       <h3 className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Mission Concept</h3>
                       <div className="p-6 rounded-2xl bg-slate-900/40 border border-white/5 text-sm text-slate-300 leading-relaxed italic">
                         {(exercise as any).definition || "The concept is shrouded in mystery."}
                       </div>
                     </div>
+                  </motion.div>
+                )}
 
+                {activeTab === 'hint' && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-8"
+                  >
                     <div className="space-y-2">
                       <h3 className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Static Guidance</h3>
                       <div className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/10 text-sm text-cyan-100/80 leading-relaxed italic flex items-start gap-4">
