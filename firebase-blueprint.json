@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user information and global progress.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "displayName": { "type": "string", "description": "The user's display name." },
+        "email": { "type": "string", "description": "The user's email address." },
+        "photoURL": { "type": "string", "description": "The user's profile photo URL." },
+        "xp": { "type": "integer", "description": "The user's total experience points." },
+        "completedExercises": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "description": "List of IDs of completed exercises." 
+        },
+        "createdAt": { "type": "string", "format": "date-time", "description": "The time the profile was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "The time the profile was last updated." }
+      },
+      "required": ["uid", "email", "xp", "completedExercises"]
+    },
+    "SavedCode": {
+      "title": "Saved Code",
+      "description": "Stores the user's code for a specific exercise.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The user's unique identifier." },
+        "moduleId": { "type": "string", "description": "The ID of the module." },
+        "exerciseId": { "type": "string", "description": "The ID of the exercise." },
+        "code": { "type": "string", "description": "The saved code snippet." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "The time the code was last updated." }
+      },
+      "required": ["uid", "moduleId", "exerciseId", "code"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "UserProfile",
+      "description": "The user's private profile and progress data."
+    },
+    "/users/{uid}/code/{exerciseId}": {
+      "schema": "SavedCode",
+      "description": "The user's saved code for a specific exercise."
+    }
+  }
+}
