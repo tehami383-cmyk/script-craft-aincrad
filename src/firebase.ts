@@ -7,7 +7,7 @@ const configModules = import.meta.glob('../firebase-applet-config.json', { eager
 const importedConfig: any = configModules['../firebase-applet-config.json'] || { default: null };
 
 let firebaseConfig: any = importedConfig.default || {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "",
+  apiKey: "AIzaSyDsfCe3cjv4RYKIoBG7QI8kUL2srLiaQyE",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "",
