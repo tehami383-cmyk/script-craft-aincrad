@@ -1,9 +1,11 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot, serverTimestamp, getDocFromServer, collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+
 import firebaseConfig from '../firebase-applet-config.json';
 
-// Initialize Firebase
+export const isFirebaseConfigured = true;
+
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);

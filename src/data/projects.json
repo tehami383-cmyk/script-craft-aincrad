@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "title": "Basic Calculator",
+    "description": "Handles user input for two numbers and an operator, applying conditional logic (if/elif/else) to perform basic arithmetic operations.",
+    "category": "Calculator",
+    "difficulty": "Beginner",
+    "timestamp_start": "01:00:00",
+    "timestamp_end": "01:15:00"
+  },
+  {
+    "id": 2,
+    "title": "Weight Converter",
+    "description": "Takes user input for weight and unit (Lbs/Kgs), using conditional logic and basic mathematical operators to apply the correct conversion formula.",
+    "category": "Converter",
+    "difficulty": "Beginner",
+    "timestamp_start": "01:15:01",
+    "timestamp_end": "01:25:00"
+  },
+  {
+    "id": 3,
+    "title": "Temperature Converter",
+    "description": "Converts temperatures between Celsius and Fahrenheit using standard formulas, focusing on float type casting and string formatting.",
+    "category": "Converter",
+    "difficulty": "Beginner",
+    "timestamp_start": "01:25:01",
+    "timestamp_end": "01:35:00"
+  },
+  {
+    "id": 4,
+    "title": "Compound Interest Calculator",
+    "description": "Calculates compound interest over time. Utilizes while loops for input validation (preventing negative values) and exponentiation operators.",
+    "category": "Finance",
+    "difficulty": "Beginner",
+    "timestamp_start": "01:35:01",
+    "timestamp_end": "01:50:00"
+  },
+  {
+    "id": 5,
+    "title": "Countdown Timer",
+    "description": "A time-based utility that utilizes the 'time' module to pause execution, demonstrating for-loops and string formatting for digital clock displays.",
+    "category": "Utility",
+    "difficulty": "Beginner",
+    "timestamp_start": "01:50:01",
+    "timestamp_end": "02:05:00"
+  },
+  {
+    "id": 6,
+    "title": "Shopping Cart Program",
+    "description": "Simulates a checkout system by appending user inputs to parallel lists (items and prices) inside a while loop, then iterating to calculate a total.",
+    "category": "Utility",
+    "difficulty": "Beginner",
+    "timestamp_start": "02:05:01",
+    "timestamp_end": "02:25:00"
+  },
+  {
+    "id": 7,
+    "title": "Quiz Game",
+    "description": "Iterates through a tuple of questions and a 2D tuple of options. Maps user answers against a tuple of correct answers to calculate a final score.",
+    "category": "Game",
+    "difficulty": "Intermediate",
+    "timestamp_start": "02:25:01",
+    "timestamp_end": "02:50:00"
+  },
+  {
+    "id": 8,
+    "title": "Banking Program",
+    "description": "A state-driven application using custom functions for show_balance, deposit, and withdraw. Uses a while loop for the main menu navigation.",
+    "category": "Finance",
+    "difficulty": "Intermediate",
+    "timestamp_start": "02:50:01",
+    "timestamp_end": "03:20:00"
+  },
+  {
+    "id": 9,
+    "title": "Slot Machine",
+    "description": "Generates a randomized 3x3 grid using the 'random' module. Evaluates rows for matching symbols to calculate payouts based on a betting system.",
+    "category": "Game",
+    "difficulty": "Intermediate",
+    "timestamp_start": "03:20:01",
+    "timestamp_end": "03:55:00"
+  },
+  {
+    "id": 10,
+    "title": "Hangman Game",
+    "description": "A classic word-guessing game. Uses dictionaries to store ASCII art states, the 'random' module to select words, and sets to track guessed letters.",
+    "category": "Game",
+    "difficulty": "Intermediate",
+    "timestamp_start": "03:55:01",
+    "timestamp_end": "04:30:00"
+  },
+  {
+    "id": 11,
+    "title": "Encryption Program",
+    "description": "Implements a substitution cipher. Converts strings to lists, shuffles a character set using the 'random' module, and maps plain text to cipher text.",
+    "category": "Security",
+    "difficulty": "Intermediate",
+    "timestamp_start": "04:30:01",
+    "timestamp_end": "04:55:00"
+  },
+  {
+    "id": 12,
+    "title": "Weather App",
+    "description": "Fetches live weather data using the 'requests' module. Parses JSON responses from a REST API and handles HTTP status codes and exceptions.",
+    "category": "API/Integration",
+    "difficulty": "Advanced",
+    "timestamp_start": "04:55:01",
+    "timestamp_end": "05:40:00"
+  }
+]

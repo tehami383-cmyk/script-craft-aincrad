@@ -10,7 +10,6 @@ import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import BackgroundMusic from './components/BackgroundMusic';
 import NeuralAssistant from './components/NeuralAssistant';
-
 export default function App() {
   return (
     <BrowserRouter>

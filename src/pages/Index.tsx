@@ -9,6 +9,29 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import projectsData from '../data/projects.json';
+
+const getCategoryColor = (category: string) => {
+  switch (category) {
+    case 'Game': return 'bg-green-500/20 text-green-400 border-green-500/30';
+    case 'Utility': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+    case 'Calculator': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+    case 'Converter': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+    case 'Finance': return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+    case 'Security': return 'bg-red-500/20 text-red-400 border-red-500/30';
+    case 'API/Integration': return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30';
+    default: return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+  }
+};
+
+const getDifficultyColor = (diff: string) => {
+  switch(diff) {
+    case 'Beginner': return 'text-emerald-400';
+    case 'Intermediate': return 'text-amber-400';
+    case 'Advanced': return 'text-red-400';
+    default: return 'text-slate-400';
+  }
+};
 
 const ModuleIcon = ({ id, className }: { id: string; className?: string }) => {
   switch (id) {
@@ -317,19 +340,71 @@ export default function Index() {
                       <p className="text-[11px] text-slate-500 italic mb-8 line-clamp-2 leading-relaxed">{mod.description}</p>
                       
                       <div className="mt-auto space-y-2">
-                        <div className="h-1 w-full bg-slate-950 rounded-full overflow-hidden">
-                          <motion.div 
-                            initial={{ width: 0 }}
-                            animate={{ width: `${modProgress * 100}%` }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className={`h-full transition-all duration-1000 ${completed ? 'bg-emerald-500' : 'bg-cyan-500'}`} 
-                          />
+                        <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
+                          <span className={completed ? 'text-emerald-400' : 'text-slate-500'}>
+                            {completed ? 'Cleared' : 'Progress'}
+                          </span>
+                          <span className={completed ? 'text-emerald-400' : 'text-cyan-400'}>
+                            {Math.round(modProgress * 100)}%
+                          </span>
+                        </div>
+                        <div className="flex gap-1 h-1.5 w-full">
+                          {mod.exercises.map((ex, i) => {
+                            const isCompleted = progress.completedExercises.includes(ex.id);
+                            return (
+                              <div key={ex.id} className="flex-1 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                                <motion.div 
+                                  initial={{ width: 0 }}
+                                  animate={{ width: isCompleted ? '100%' : '0%' }}
+                                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                                  className={`h-full ${completed ? 'bg-emerald-500' : 'bg-cyan-500 shadow-[0_0_10px_rgba(34,211,238,0.5)]'}`} 
+                                />
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 );
               })}
+            </motion.div>
+          </div>
+
+          <div className="mt-24 space-y-8">
+            <div className="flex items-center gap-6">
+              <h2 className="text-xs font-mono tracking-[0.6em] uppercase text-slate-500">Python Projects Catalog</h2>
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
+            </div>
+
+            <motion.div 
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {projectsData.map((project) => (
+                <motion.div 
+                  key={project.id} 
+                  variants={item}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="p-6 rounded-2xl border border-white/10 bg-slate-900/20 backdrop-blur-sm hover:border-cyan-500/40 transition-all flex flex-col h-full group cursor-pointer"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+                    <span className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider border ${getCategoryColor(project.category)}`}>
+                      {project.category}
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-400 mb-6 flex-1 italic leading-relaxed">{project.description}</p>
+                  <div className="flex justify-between items-center pt-4 border-t border-white/5">
+                    <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Difficulty</span>
+                    <span className={`text-[10px] font-mono uppercase tracking-widest ${getDifficultyColor(project.difficulty)}`}>
+                      {project.difficulty}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
         </main>
