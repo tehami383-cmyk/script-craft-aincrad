@@ -383,7 +383,7 @@ export default function Index() {
               animate="show"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {projectsData.map((project) => (
+              {(Array.isArray(projectsData) ? projectsData : (projectsData as any)?.default || []).map((project: any) => (
                 <motion.div 
                   key={project.id} 
                   variants={item}
