@@ -1,4 +1,4 @@
-// @ts-nocheck
+// Version 2.0
 export const firebaseConfig = {
   apiKey: "AIzaSyBikiHTyNKZg3_q3kD65KO0wuXRWiHuLcU",
   authDomain: "gen-lang-client-0435618116.firebaseapp.com",
