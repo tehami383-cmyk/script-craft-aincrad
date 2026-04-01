@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup as fbSignInWithPopup, signOut as fbSignOut, onAuthStateChanged as fbOnAuthStateChanged, User } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup as fbSignInWithPopup, signOut as fbSignOut, onAuthStateChanged as fbOnAuthStateChanged, updateProfile as fbUpdateProfile, User } from 'firebase/auth';
 import { getFirestore, doc as fbDoc, getDoc as fbGetDoc, setDoc as fbSetDoc, updateDoc as fbUpdateDoc, arrayUnion as fbArrayUnion, onSnapshot as fbOnSnapshot, serverTimestamp as fbServerTimestamp, getDocFromServer, collection as fbCollection, query as fbQuery, orderBy as fbOrderBy, limit as fbLimit, getDocs as fbGetDocs } from 'firebase/firestore';
+import { getStorage, ref as fbRef, uploadBytes as fbUploadBytes, getDownloadURL as fbGetDownloadURL } from 'firebase/storage';
 
 // Try to load the config safely using Vite's import.meta.glob
 const configModules = import.meta.glob('../firebase-applet-config.json', { eager: true });
@@ -20,6 +21,7 @@ export const isFirebaseConfigured = !!firebaseConfig.apiKey;
 let app: any = null;
 let auth: any = { currentUser: null };
 let db: any = null;
+let storage: any = null;
 let googleProvider: any = null;
 
 if (isFirebaseConfigured) {
@@ -27,6 +29,7 @@ if (isFirebaseConfigured) {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     db = getFirestore(app);
+    storage = getStorage(app);
     googleProvider = new GoogleAuthProvider();
     
     // Connection test
@@ -62,6 +65,11 @@ export const signInWithPopup = async (authInstance: any, provider: any) => {
 export const signOut = async (authInstance: any) => {
   if (!isFirebaseConfigured || !authInstance?.app) return;
   return fbSignOut(authInstance);
+};
+
+export const updateProfile = async (user: any, profile: any) => {
+  if (!isFirebaseConfigured) return;
+  return fbUpdateProfile(user, profile);
 };
 
 export const doc = (...args: any[]) => {
@@ -113,5 +121,20 @@ export const limit = fbLimit;
 export const arrayUnion = fbArrayUnion;
 export const serverTimestamp = fbServerTimestamp;
 
-export { auth, db, googleProvider };
+export const ref = (...args: any[]) => {
+  if (!isFirebaseConfigured || !storage) return {} as any;
+  return fbRef(storage, ...(args.slice(1) as [any]));
+};
+
+export const uploadBytes = async (reference: any, data: any, metadata?: any) => {
+  if (!isFirebaseConfigured) return { ref: reference } as any;
+  return fbUploadBytes(reference, data, metadata);
+};
+
+export const getDownloadURL = async (reference: any) => {
+  if (!isFirebaseConfigured) return "";
+  return fbGetDownloadURL(reference);
+};
+
+export { auth, db, storage, googleProvider };
 export type { User };

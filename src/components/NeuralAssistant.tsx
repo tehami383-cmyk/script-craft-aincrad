@@ -82,7 +82,7 @@ export default function NeuralAssistant() {
         id="neural-assistant-toggle"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        whileHover={{ scale: 1.1, rotate: 5 }}
+        whileHover={{ scale: 1.05, boxShadow: "0px 0px 30px rgba(8,145,178,0.8)" }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-gradient-to-br from-cyan-600 to-blue-600 text-white shadow-[0_0_20px_rgba(8,145,178,0.4)] border border-white/20 ${isOpen ? 'hidden' : 'flex'} items-center justify-center group`}

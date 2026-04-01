@@ -3,14 +3,63 @@ import { useAuth } from '../hooks/useAuth';
 import { useProgress, getLevel, getLevelProgress, getXpForNextLevel } from '../hooks/useProgress';
 import { curriculum, BADGES } from '../data/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, LogOut, ShieldCheck, Target, Swords, Activity, Zap, Star, Award, Calendar, Mail, User as UserIcon, ChevronRight, ChevronDown, Check, Hexagon, Lock } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, LogOut, ShieldCheck, Target, Swords, Activity, Zap, Star, Award, Calendar, Mail, User as UserIcon, ChevronRight, ChevronDown, Check, Hexagon, Lock, Camera, Upload } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { ref, uploadBytes, getDownloadURL, updateProfile, doc, updateDoc } from '../firebase';
 
 export default function Profile() {
   const navigate = useNavigate();
   const { user, signOut, loading: authLoading } = useAuth();
   const { progress, loading: progressLoading } = useProgress();
   const [expandedModules, setExpandedModules] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate file type and size (e.g., max 5MB)
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size must be less than 5MB.');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      // Create a reference to the file in Firebase Storage
+      const storageRef = ref(`profile_pictures/${user.uid}/${file.name}`);
+      
+      // Upload the file
+      await uploadBytes(storageRef, file);
+      
+      // Get the download URL
+      const photoURL = await getDownloadURL(storageRef);
+      
+      // Update user profile in Firebase Auth
+      await updateProfile(user, { photoURL });
+      
+      // Update user document in Firestore
+      const userDocRef = doc('users', user.uid);
+      await updateDoc(userDocRef, { photoURL });
+      
+      // Update leaderboard document in Firestore
+      const leaderboardRef = doc('leaderboard', user.uid);
+      await updateDoc(leaderboardRef, { photoURL });
+      
+      // Force a reload to reflect the new image (or you could update local state)
+      window.location.reload();
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      alert('Failed to upload profile picture. Please try again.');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   if (authLoading || progressLoading) {
     return (
@@ -131,17 +180,37 @@ export default function Profile() {
               animate={{ opacity: 1, x: 0 }}
               className="lg:col-span-1 p-8 rounded-3xl border border-white/10 bg-slate-900/20 backdrop-blur-md flex flex-col items-center text-center space-y-6"
             >
-              <div className="relative group">
+              <div className="relative group cursor-pointer" onClick={() => !uploading && fileInputRef.current?.click()}>
                 <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition duration-700" />
                 <img 
                   src={user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`} 
                   alt="Profile" 
-                  className="w-32 h-32 rounded-full border-2 border-white/10 relative z-10 shadow-2xl"
+                  className={`w-32 h-32 rounded-full border-2 border-white/10 relative z-10 shadow-2xl object-cover transition-opacity ${uploading ? 'opacity-50' : 'group-hover:opacity-80'}`}
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-slate-950 border border-cyan-500/50 flex items-center justify-center text-cyan-400 z-20 shadow-lg">
+                
+                {/* Upload Overlay */}
+                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  {uploading ? (
+                    <Activity className="w-8 h-8 text-cyan-400 animate-spin" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-slate-900/80 border border-white/20 flex items-center justify-center text-white backdrop-blur-sm">
+                      <Camera size={20} />
+                    </div>
+                  )}
+                </div>
+
+                <div className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-slate-950 border border-cyan-500/50 flex items-center justify-center text-cyan-400 z-30 shadow-lg">
                   <ShieldCheck size={20} />
                 </div>
+                
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange} 
+                  accept="image/*" 
+                  className="hidden" 
+                />
               </div>
 
               <div className="space-y-1">

@@ -10,11 +10,13 @@ import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import BackgroundMusic from './components/BackgroundMusic';
 import NeuralAssistant from './components/NeuralAssistant';
+import GlobalSearch from './components/GlobalSearch';
 export default function App() {
   return (
     <BrowserRouter>
       <BackgroundMusic />
       <NeuralAssistant />
+      <GlobalSearch />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/profile" element={<Profile />} />
