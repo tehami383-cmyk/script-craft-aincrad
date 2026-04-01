@@ -23,9 +23,11 @@ let googleProvider: any = null;
 
 if (isFirebaseConfigured) {
   try {
+    console.log("Initializing Firebase with config:", firebaseConfig);
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    db = getFirestore(app);
+    const dbId = firebaseConfig.databaseId || firebaseConfig.firestoreDatabaseId || '(default)';
+    db = getFirestore(app, dbId);
     storage = getStorage(app);
     googleProvider = new GoogleAuthProvider();
     
