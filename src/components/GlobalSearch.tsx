@@ -200,7 +200,7 @@ export default function GlobalSearch() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 left-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all shadow-lg group"
+          className="fixed bottom-24 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all shadow-lg group"
         >
           <Search className="w-4 h-4 group-hover:scale-110 transition-transform" />
           <span className="text-xs font-mono">Search</span>

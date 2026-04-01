@@ -2,12 +2,9 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup as fbSignInWithPopup, signOut as fbSignOut, onAuthStateChanged as fbOnAuthStateChanged, updateProfile as fbUpdateProfile, User } from 'firebase/auth';
 import { getFirestore, doc as fbDoc, getDoc as fbGetDoc, setDoc as fbSetDoc, updateDoc as fbUpdateDoc, arrayUnion as fbArrayUnion, onSnapshot as fbOnSnapshot, serverTimestamp as fbServerTimestamp, getDocFromServer, collection as fbCollection, query as fbQuery, orderBy as fbOrderBy, limit as fbLimit, getDocs as fbGetDocs } from 'firebase/firestore';
 import { getStorage, ref as fbRef, uploadBytes as fbUploadBytes, getDownloadURL as fbGetDownloadURL } from 'firebase/storage';
+import { firebaseConfig as importedConfig } from '../firebase-applet-config';
 
-// Try to load the config safely using Vite's import.meta.glob
-const configModules = import.meta.glob('../firebase-applet-config.json', { eager: true });
-const importedConfig: any = configModules['../firebase-applet-config.json'] || { default: null };
-
-let firebaseConfig: any = importedConfig.default || {
+let firebaseConfig: any = importedConfig || {
   apiKey: "AIzaSyDsfCe3cjv4RYKIoBG7QI8kUL2srLiaQyE",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "",
