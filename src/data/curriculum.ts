@@ -1,149 +1,149 @@
 export const BADGES = {
-  f1: "Data Entry Initiate",
-  f2: "Sequence Manipulator",
-  f3: "Memory Guardian",
-  f4: "Hash Forger",
-  f5: "Iterative Engine",
-  f6: "Pipeline Architect",
-  f7: "Persistence Master",
-  f8: "Blueprint Sovereign"
+  f1: "Syntax Initiate",
+  f2: "Collection Specialist",
+  f3: "Buffer Manipulator",
+  f4: "Method Master",
+  f5: "NumPy Architect",
+  f6: "Statistical Analyst",
+  f7: "Logic Sovereign",
+  f8: "Automation Legend"
 };
 
 export const curriculum = [
   { 
     id: "f1", 
-    title: "Floor 1: Data Entry", 
-    description: "Mastering Scalars, Input Sensors, and Type Casting Protocols.", 
+    title: "Floor 1: Python Basics", 
+    description: "Variables, Types, and Arithmetic Operations.", 
     difficulty: 1,
     theme: "Foundations",
     icon: "⚔️",
-    tutorial: "In this floor, you will learn how to capture data from the neural link using `input()`. Remember, all input is received as a string; use `int()` or `float()` to cast it into a numeric scalar for calculation.",
-    definition: "Data Entry is the process of capturing raw input from external sources and converting it into a format that a program can process. In Python, this primarily involves the `input()` function and type casting (e.g., `int()`, `float()`).",
-    dsContext: "In Data Science, this is the 'Data Acquisition' phase. Raw data from CSVs, APIs, or user sensors must be ingested and cast into appropriate numeric types (Tensors/Arrays) before any mathematical modeling can occur.",
-    protocols: ["Neural Input Capture", "Scalar Type Casting", "Memory Allocation"],
+    tutorial: "Welcome to Aincrad's Neural Link. Before we process complex signals, you must master the basics of Python: variables and data types. Variables allow you to store data, and types define what that data is (integers, floats, or strings).",
+    definition: "Python Basics involve using variables to store data and performing arithmetic. Common types include `int` (integers), `float` (decimals), and `str` (text).",
+    dsContext: "In Data Science, variables store your datasets, model parameters, and calculation results. Knowing your data types is the first step in ensuring your analysis is accurate.",
+    protocols: ["Variable Assignment", "Arithmetic Operations", "Type Identification"],
     exercises: [
-      { id: "e1_1", title: "Ritual of Summation", definition: "Summation is the fundamental operation of adding a sequence of numbers. In programming, it's the first step towards data aggregation and statistical analysis.", hint: "Use `a = int(input())` to capture the first integer." },
-      { id: "e1_2", title: "Neural Profile", definition: "A profile is a structured collection of data points that describe an entity. Capturing diverse data types (strings, integers, floats) is essential for building comprehensive datasets.", hint: "Capture name (str), age (int), and power (float) using `input()`." },
-      { id: "e1_3", title: "Scalar Conversion", definition: "Type casting is the explicit conversion of data from one type to another. Understanding how precision is lost (e.g., float to int) is critical for maintaining data integrity in calculations.", hint: "Convert a float to an int using `int()` to see the data loss." }
+      { id: "e1_1", title: "Variable Assignment", definition: "Assigning a value to a name so it can be reused. For example, `x = 5` stores the number 5 in the variable `x`.", hint: "Create a variable named `savings` and set it to 100." },
+      { id: "e1_2", title: "Calculations", definition: "Using Python as a calculator. You can use `+`, `-`, `*`, `/`, and `**` for exponentiation.", hint: "Calculate your total savings after 10% interest: `savings * 1.1`." },
+      { id: "e1_3", title: "Type Conversion", definition: "Changing data from one type to another, like converting a string '10' to an integer 10 using `int()`.", hint: "Use `type()` to check a variable's type, and `str()` to convert a number to text." }
     ]
   },
   { 
     id: "f2", 
-    title: "Floor 2: Data Cleaning", 
-    description: "Navigating Sequence Manipulation and Conditional Logic Gates.", 
+    title: "Floor 2: Python Lists", 
+    description: "Storing and Accessing Collections of Data.", 
     difficulty: 2,
-    theme: "Logic",
+    theme: "Storage",
     icon: "💎",
-    tutorial: "Floor 2 introduces Logic Gates (`if`, `elif`, `else`). These are the bifurcation points of your script. Use them to filter noise from signal.",
-    definition: "Conditional Logic (Control Flow) allows a program to execute different code blocks based on whether a condition is True or False. This is implemented using `if`, `elif`, and `else` statements.",
-    dsContext: "Data Cleaning relies heavily on logic gates to handle missing values (NaNs), filter out outliers, and categorize continuous data into discrete bins for feature engineering.",
-    protocols: ["Logic Bifurcation", "Comparison Operators", "Boolean Algebra"],
+    tutorial: "A single variable can only hold one piece of data. Lists allow you to store many values in a single variable, which is essential for handling sequences of neural observations.",
+    definition: "A List is a collection of values. You create a list using square brackets: `[1, 2, 3]`. Lists can contain any data type, even other lists.",
+    dsContext: "Lists are used to store sequences of data points, like daily stock prices or sensor readings, before they are processed into more advanced structures like NumPy arrays.",
+    protocols: ["List Creation", "Indexing", "Subsetting"],
     exercises: [
-      { id: "e2_1", title: "The Bifurcation", definition: "Bifurcation logic uses conditional statements to direct the flow of a program. It's the basis for decision-making algorithms and data filtering based on specific criteria.", hint: "Check if a value is even using the modulo operator: `x % 2 == 0`." },
-      { id: "e2_2", title: "Signal Filter", definition: "Filtering is the process of isolating specific data points from a stream. In data science, this allows us to focus on relevant signals while discarding noise or outliers.", hint: "Use `if-elif-else` to categorize a signal strength (0-100)." },
-      { id: "e2_3", title: "Neural Gatekeeper", definition: "Gatekeeping uses complex boolean logic (AND/OR/NOT) to enforce strict access or validation rules. It ensures that only data meeting all necessary criteria proceeds through the pipeline.", hint: "Check if both 'access_key' and 'neural_sync' are valid using `and`." }
+      { id: "e2_1", title: "Creating Lists", definition: "Grouping multiple data points together. For example, `areas = [11.25, 18.0, 20.0]`.", hint: "Create a list called `hall_areas` containing four different numbers." },
+      { id: "e2_2", title: "Subsetting Lists", definition: "Accessing a specific element in a list using its index. Remember, Python indexing starts at 0!", hint: "Get the first element of your list using `list[0]`." },
+      { id: "e2_3", title: "List Slicing", definition: "Selecting a range of elements from a list using the `[start:end]` syntax. The 'end' index is not included.", hint: "Use `list[1:3]` to get the second and third elements." }
     ]
   },
   { 
     id: "f3", 
-    title: "Floor 3: Memory Management", 
-    description: "Managing Mutable and Immutable Structures; The Palindrome Check.", 
+    title: "Floor 3: List Manipulation", 
+    description: "Modifying, Adding, and Removing Data.", 
     difficulty: 2,
-    theme: "Memory",
+    theme: "Manipulation",
     icon: "🛡️",
-    tutorial: "Strings and Lists are your primary memory buffers. Strings are immutable—once forged, they cannot be altered. Lists are mutable, allowing for dynamic reconfiguration.",
-    definition: "Memory Management in Python involves understanding Mutability. Strings are immutable sequences of characters, while Lists are mutable ordered collections that can store mixed data types.",
-    dsContext: "Lists are the precursors to NumPy arrays and Pandas Series. Understanding slicing and mutability is critical for efficient data manipulation and avoiding 'SettingWithCopy' warnings in data pipelines.",
-    protocols: ["Sequence Slicing", "Immutability Check", "List Manipulation"],
+    tutorial: "Data is rarely perfect. You'll often need to update values, add new observations, or remove errors from your lists to keep the neural buffer clean.",
+    definition: "List Manipulation involves changing elements, adding new ones with `.append()`, or removing them with `.remove()` or `del`.",
+    dsContext: "Data cleaning often involves updating incorrect entries in a list or appending new data points as they arrive from a live stream.",
+    protocols: ["Element Updating", "List Extension", "Data Purging"],
     exercises: [
-      { id: "e3_1", title: "The Metamorphosis", definition: "Palindromes are sequences that remain identical when reversed. This exercise masters string slicing and comparison, which are core techniques for text processing and pattern recognition.", hint: "A palindrome reads the same forwards and backwards. Try `s == s[::-1]`." },
-      { id: "e3_2", title: "Buffer Reversal", definition: "Reversal is a common sequence operation used in data restructuring. Mastering list manipulation allows for dynamic reordering of data points for various analytical perspectives.", hint: "Reverse a list using `.reverse()` or `[::-1]`." },
-      { id: "e3_3", title: "Memory Slicing", definition: "Slicing is a powerful technique for extracting sub-sections of data. It's the foundation for windowing operations and feature extraction from large datasets.", hint: "Extract the first 5 elements of a list using `list[:5]`." }
+      { id: "e3_1", title: "Updating Elements", definition: "Changing the value of an existing list item by targeting its index. For example, `list[0] = 10`.", hint: "Change the second element of your list to a new value." },
+      { id: "e3_2", title: "Adding Data", definition: "Using the `+` operator to combine lists or the `.append()` method to add a single item to the end.", hint: "Add two lists together using `list1 + list2`." },
+      { id: "e3_3", title: "Deleting Items", definition: "Removing elements from a list using the `del` statement. For example, `del(list[1])`.", hint: "Delete the last element of your list." }
     ]
   },
   { 
     id: "f4", 
-    title: "Floor 4: Data Filtering", 
-    description: "Architecting Hash Maps and Unique Sets for rapid retrieval.", 
+    title: "Floor 4: Functions & Methods", 
+    description: "Leveraging Built-in Tools for Data Analysis.", 
     difficulty: 3,
-    theme: "Optimization",
+    theme: "Tools",
     icon: "🔍",
-    tutorial: "Dictionaries (Hash Maps) allow for O(1) retrieval. They are the index of your neural database. Sets ensure uniqueness, purging duplicate data packets.",
-    definition: "Data Filtering uses Dictionaries (key-value pairs) for fast lookups and Sets (unordered collections of unique elements) to eliminate redundancy.",
-    dsContext: "Dictionaries are used for 'Feature Mapping' and 'Label Encoding'. Sets are essential for identifying unique categories in a dataset and performing set operations like intersections for data merging.",
-    protocols: ["Hash Map Forging", "Unique Set Filtering", "Key-Value Pairs"],
+    tutorial: "Don't reinvent the wheel. Python provides many built-in functions like `len()` and `max()` to analyze your data quickly. Objects also have 'methods'—functions that belong to them.",
+    definition: "Functions are reusable pieces of code. Methods are functions that are specific to an object (like `.upper()` for strings or `.index()` for lists).",
+    dsContext: "Data Scientists use functions to calculate statistics (mean, max) and methods to transform data (sorting lists, cleaning strings).",
+    protocols: ["Function Calling", "Method Execution", "Argument Passing"],
     exercises: [
-      { id: "e4_1", title: "Hash Map Forging", definition: "Dictionaries provide O(1) lookup efficiency by mapping unique keys to values. This is the standard for building fast, searchable indexes and lookup tables in large-scale systems.", hint: "Use `my_dict[key] = value` to store a mapping." },
-      { id: "e4_2", title: "Duplicate Purge", definition: "Sets are unordered collections that automatically enforce uniqueness. They are the most efficient way to remove duplicates and perform mathematical set operations like union and intersection.", hint: "Convert a list to a `set()` to remove duplicates." },
-      { id: "e4_3", title: "Feature Mapping", definition: "Mapping involves associating raw identifiers with descriptive attributes. This is a key step in data labeling and preparing categorical data for machine learning models.", hint: "Map sensor IDs to their current readings in a dictionary." }
+      { id: "e4_1", title: "Built-in Functions", definition: "Using standard Python functions to get info about your data. For example, `len(list)` returns the number of items.", hint: "Find the maximum value in a list using the `max()` function." },
+      { id: "e4_2", title: "String Methods", definition: "Performing actions on text data. For example, `\"hello\".upper()` turns the text into uppercase.", hint: "Use the `.replace()` method to change a part of a string." },
+      { id: "e4_3", title: "List Methods", definition: "Using methods specific to lists, like `.index(value)` to find where a value is located.", hint: "Use `.count(value)` to see how many times a number appears in your list." }
     ]
   },
   { 
     id: "f5", 
-    title: "Floor 5: Iterative Engines", 
-    description: "Deploying Loops for Gradient Descent and Optimization.", 
+    title: "Floor 5: NumPy Arrays", 
+    description: "High-Performance Numeric Computing.", 
     difficulty: 3,
-    theme: "Iteration",
+    theme: "Performance",
     icon: "🌀",
-    tutorial: "Loops (`for`, `while`) are the iterative engines of Aincrad. They allow you to process vast streams of data until convergence is reached.",
-    definition: "Iterative Engines (Loops) allow code to be executed repeatedly. `for` loops iterate over sequences, while `while` loops continue until a condition is no longer met.",
-    dsContext: "Iteration is the core of 'Gradient Descent' and 'Hyperparameter Tuning'. We loop through epochs to minimize loss functions and iterate over data batches to train neural networks.",
-    protocols: ["Iterative Convergence", "Range Generation", "List Comprehension"],
+    tutorial: "Standard lists are slow for math. NumPy arrays are the 'Tensors' of Aincrad—optimized for fast calculations across entire datasets simultaneously.",
+    definition: "NumPy is a package for scientific computing. Arrays are similar to lists but allow for element-wise calculations (e.g., multiplying an entire array by 2).",
+    dsContext: "NumPy is the foundation of almost all Data Science in Python. It's used for linear algebra, statistical analysis, and as the base for Pandas and Scikit-Learn.",
+    protocols: ["Package Importing", "Array Creation", "Element-wise Math"],
     exercises: [
-      { id: "e5_1", title: "Cyclic Tables", definition: "Iteration allows for the repetitive execution of logic. Generating tables is a basic form of data generation and transformation used to prepare lookup values or synthetic data.", hint: "Use `range(1, 11)` to iterate through multipliers." },
-      { id: "e5_2", title: "Neural Convergence", definition: "Convergence is the process of iteratively approaching a target state. This is the fundamental principle behind optimization algorithms like Gradient Descent, where we minimize error over time.", hint: "Use a `while` loop to decrement a value until it reaches zero." },
-      { id: "e5_3", title: "List Comprehension", definition: "List comprehension is Python's 'syntactic sugar' for creating lists efficiently. It's a hallmark of 'Pythonic' code, allowing for concise and readable data transformations in a single line.", hint: "Create a list of squares using `[x**2 for x in range(10)]`." }
+      { id: "e5_1", title: "Importing NumPy", definition: "Loading an external package into your script. Usually done as `import numpy as np`.", hint: "Import the numpy package using the alias `np`." },
+      { id: "e5_2", title: "Creating Arrays", definition: "Converting a Python list into a NumPy array using `np.array(my_list)`.", hint: "Create a NumPy array from a list of weights." },
+      { id: "e5_3", title: "Array Arithmetic", definition: "Performing math on every element of an array at once. For example, `np_array * 2` doubles every value.", hint: "Calculate BMI by dividing a weight array by a height array squared." }
     ]
   },
   { 
     id: "f6", 
-    title: "Floor 6: Pipeline Building", 
-    description: "Constructing Modular Architecture through Functions and Recursion.", 
+    title: "Floor 6: NumPy Statistics", 
+    description: "Summarizing Data with Statistical Protocols.", 
     difficulty: 4,
-    theme: "Architecture",
+    theme: "Statistics",
     icon: "🏗️",
-    tutorial: "Functions are modular blueprints. They encapsulate logic for reuse. Recursion is a function calling itself—a powerful but dangerous loop into the neural abyss.",
-    definition: "Pipeline Building involves Functions—reusable blocks of code that perform a specific task. Recursion is a technique where a function calls itself to solve smaller instances of the same problem.",
-    dsContext: "Data Pipelines are built using modular functions to ensure reproducibility. Recursion is often used in tree-based algorithms like 'Decision Trees' and 'Random Forests' for splitting nodes.",
-    protocols: ["Modular Encapsulation", "Recursive Depth", "Lambda Forge"],
+    tutorial: "To understand a dataset, you need to summarize it. NumPy provides powerful statistical tools to find the average, middle, and spread of your neural signals.",
+    definition: "Statistical functions in NumPy, like `np.mean()`, `np.median()`, and `np.std()`, allow you to quickly summarize large amounts of data.",
+    dsContext: "Statistics are crucial for understanding the 'distribution' of your data, identifying outliers, and making data-driven decisions.",
+    protocols: ["Mean Calculation", "Median Analysis", "Standard Deviation"],
     exercises: [
-      { id: "e6_1", title: "Recursive Factorials", definition: "Recursion solves complex problems by breaking them into smaller, self-similar sub-problems. It's a core concept for navigating hierarchical data structures like trees and graphs.", hint: "The base case for factorial is `if n == 0: return 1`." },
-      { id: "e6_2", title: "Modular Architect", definition: "Modularity through functions promotes code reuse and maintainability. In data science, modular pipelines ensure that data transformations are consistent across training and inference.", hint: "Define a function `calc_potential(cap, sync)` that returns their sum." },
-      { id: "e6_3", title: "Lambda Forge", definition: "Lambda functions are anonymous, one-line functions used for short-lived operations. They are frequently used in functional programming patterns like `map()`, `filter()`, and `apply()` in Pandas.", hint: "Use a `lambda` function to square a number." }
+      { id: "e6_1", title: "The Average", definition: "Calculating the mean (average) of a dataset. It's the sum of all values divided by the count.", hint: "Use `np.mean()` to find the average of an array." },
+      { id: "e6_2", title: "The Middle", definition: "Finding the median—the middle value when data is sorted. It's more robust to outliers than the mean.", hint: "Use `np.median()` to find the middle value of your data." },
+      { id: "e6_3", title: "Data Spread", definition: "Calculating Standard Deviation (`std`) to see how spread out your data points are from the average.", hint: "Use `np.std()` to check the consistency of your data." }
     ]
   },
   { 
     id: "f7", 
-    title: "Floor 7: Data Persistence", 
-    description: "Executing ETL Processes and File I/O Operations.", 
+    title: "Floor 7: Logic & Filtering", 
+    description: "Conditional Logic and Data Selection Gates.", 
     difficulty: 4,
-    theme: "Persistence",
+    theme: "Logic",
     icon: "📜",
-    tutorial: "Data must persist beyond the current session. Use `open()` with 'r' or 'w' modes to read from or write to the system's persistent storage.",
-    definition: "Data Persistence (File I/O) is the ability to save data to a permanent storage medium (like a hard drive) and retrieve it later using file handling protocols.",
-    dsContext: "This is the 'ETL' (Extract, Transform, Load) process. Data Scientists must read raw data from various formats (CSV, JSON, SQL) and save processed models (Pickling) for deployment.",
-    protocols: ["File I/O Operations", "Context Managers", "ETL Pipelines"],
+    tutorial: "Logic gates allow your script to make decisions. In Data Science, we use logic to filter our datasets, selecting only the observations that meet certain criteria.",
+    definition: "Logic involves comparison operators (`>`, `<`, `==`) and boolean operators (`and`, `or`, `not`). These return `True` or `False`.",
+    dsContext: "Filtering is a daily task for Data Scientists. You might filter a dataset to only show customers over 18 or transactions greater than $100.",
+    protocols: ["Comparison Logic", "Boolean Filtering", "Conditional Gates"],
     exercises: [
-      { id: "e7_1", title: "Log Cleansing", definition: "File I/O is the bridge between volatile memory and persistent storage. Mastering safe file handling (using context managers) prevents data corruption and resource leaks during ETL processes.", hint: "Use `with open('file.txt', 'r') as f:` for safe file handling." },
-      { id: "e7_2", title: "Neural Export", definition: "Exporting data to persistent files (CSV, JSON, TXT) is critical for sharing results and saving processed datasets for future analysis or external visualization.", hint: "Write a list of strings to a file, one per line." },
-      { id: "e7_3", title: "System Import", definition: "Importing data is the first step of any analysis. Efficiently reading and parsing external files allows a program to process real-world data from diverse sources.", hint: "Read a file and count the number of lines it contains." }
+      { id: "e7_1", title: "Comparisons", definition: "Checking relationships between values. For example, `2 > 1` is `True`.", hint: "Check if a variable is greater than 50." },
+      { id: "e7_2", title: "Boolean Operators", definition: "Combining multiple conditions. `and` requires both to be true; `or` requires at least one.", hint: "Check if a number is between 10 and 20 using `and`." },
+      { id: "e7_3", title: "Array Filtering", definition: "Using a boolean array to select specific elements from a NumPy array. For example, `arr[arr > 5]`.", hint: "Select all elements in an array that are greater than 100." }
     ]
   },
   { 
     id: "f8", 
-    title: "Floor 8: Model Class Design", 
-    description: "Forging Object-Oriented Blueprints for advanced System Design.", 
+    title: "Floor 8: Loops & Iteration", 
+    description: "Automating Repetitive Neural Tasks.", 
     difficulty: 5,
-    theme: "Sovereignty",
+    theme: "Automation",
     icon: "👑",
-    tutorial: "Classes are the ultimate blueprints. They define both state (attributes) and behavior (methods). This is the foundation of advanced System Architecture.",
-    definition: "Object-Oriented Programming (OOP) uses Classes to create Objects. A class is a blueprint that defines the data (attributes) and actions (methods) an object can perform.",
-    dsContext: "Most ML libraries (Scikit-Learn, PyTorch) are built on OOP. Models are classes with `fit()` and `predict()` methods. Custom class design is essential for building scalable AI systems.",
-    protocols: ["Object Orientation", "State Initialization", "Inheritance Gates"],
+    tutorial: "The final floor. Loops allow you to repeat a block of code for every item in a collection, automating the processing of vast neural databases.",
+    definition: "A `for` loop repeats code for each item in a list. A `while` loop repeats code as long as a condition remains `True`.",
+    dsContext: "Loops are used to iterate over rows in a DataFrame, train models over multiple epochs, or scrape data from multiple web pages.",
+    protocols: ["For Loop Iteration", "While Loop Control", "Nested Automation"],
     exercises: [
-      { id: "e8_1", title: "The Bank Architect", definition: "Constructors initialize the internal state of an object. In AI, this is used to set up model parameters, hyperparameters, and internal buffers before training begins.", hint: "Use `__init__` to initialize the state of your object." },
-      { id: "e8_2", title: "Neural Entity", definition: "Classes encapsulate state and behavior into a single unit. This 'Object-Oriented' approach is the standard for building complex, modular AI entities and system components.", hint: "Create a `User` class with `name` and `rank` attributes." },
-      { id: "e8_3", title: "Inheritance Gate", definition: "Inheritance allows a class to derive properties from a parent class. This promotes code reuse and hierarchy, enabling the creation of specialized AI models from a common base.", hint: "Create a `Master` class that inherits from `User`." }
+      { id: "e8_1", title: "Basic For Loop", definition: "Iterating over a list and performing an action for each element.", hint: "Use `for x in list:` to print every item in your list." },
+      { id: "e8_2", title: "Looping with Math", definition: "Performing calculations inside a loop to aggregate data or transform it.", hint: "Loop through a list of numbers and add 5 to each one." },
+      { id: "e8_3", title: "While Loops", definition: "Repeating code until a specific goal is reached. Useful when you don't know the exact number of iterations needed.", hint: "Use a `while` loop to count down from 10 to 0." }
     ]
   }
 ];
